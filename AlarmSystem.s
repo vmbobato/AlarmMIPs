@@ -23,7 +23,7 @@ __main		proc
 			BL LCDInit
 			BL swCfg
 			
-repeat		mov r5, #0x20
+repeat			mov r5, #0x20
 			strb r5, [r2, #0x02] ; high bit to green and low to red (disarmed)
 			;lcd alarm: off
 			;
@@ -60,17 +60,17 @@ repeat		mov r5, #0x20
 			cmp r6, #0			 ;
 			beq repeat
 			
-keyCheck1	ldrb r6, [r2, #0x00]
+keyCheck1		ldrb r6, [r2, #0x00]
 			and r6, #0x04
 			cmp r6, #0
 			bne keyCheck1
 			
-IRcheck1	ldrb r6, [r2, #0x00]
+IRcheck1		ldrb r6, [r2, #0x00]
 			and r6, #0x02
 			cmp r6, #0
 			beq IRcheck1
 			
-armed		mov r5, #0x10    ; high bit to red
+armed			mov r5, #0x10    ; high bit to red
 			strb r5, [r2, #0x02]
 			mov r4, #0x01
 			BL LCDCommand
@@ -99,12 +99,12 @@ armed		mov r5, #0x10    ; high bit to red
 			mov r7, #"n"
 			BL LCDData
 			
-keyCheck2	ldrb r6, [r2, #0x00]    
+keyCheck2		ldrb r6, [r2, #0x00]    
 			and r6, #0x04
 			cmp r6, #0
 			bne repeat
 			
-IRcheck2	ldrb r6, [r2, #0x00]
+IRcheck2		ldrb r6, [r2, #0x00]
 			and r6, #0x02
 			cmp r6, #0
 			bne armed
@@ -137,17 +137,17 @@ IRcheck2	ldrb r6, [r2, #0x00]
 			mov r7, #"!"
 			BL LCDData
 			
-alarmRep	mov r5, #0x40   ;buzzer
+alarmRep		mov r5, #0x40   ;buzzer
 			strb r5, [r2, #0x02]
 			BL blink
 			
-keyCheck3	ldrb r6, [r2, #0x00]
+keyCheck3		ldrb r6, [r2, #0x00]
 			and r6, #0x04
 			cmp r6, #0
 			bne LCDclear
 			
 			
-onOff		ldrb r6, [r2, #0x00]
+onOff			ldrb r6, [r2, #0x00]
 			and r6, #0x01
 			cmp r6, #0
 			beq LCDclear
@@ -155,7 +155,7 @@ onOff		ldrb r6, [r2, #0x00]
 			
 			endp
 			
-LCDclear	function
+LCDclear		function
 			;clear lcd
 			mov r4, #0x01
 			BL LCDCommand
@@ -163,7 +163,7 @@ LCDclear	function
 			BX LR
 			endp
 
-swCfg		function
+swCfg			function
 			ldr r2, =0x40004C40 ;P5
 			mov r3, #0xF0    ; 1 1 1 1 0 0 0 0 (4,5,6,7 as op)
 			strb r3, [r2, #0x04] ;PxDIR P1
@@ -174,7 +174,7 @@ swCfg		function
 			BX lr
 			endp
 			
-LCDInit		function
+LCDInit			function
 			ldr r0, =0x40004C20 ;Port 3
 			ldr r1, =0x40004C21 ;Port 4
 			
@@ -196,7 +196,7 @@ LCDInit		function
 			BX LR
 			endp
 				
-LCDCommand	function
+LCDCommand		function
 			strb r4, [r1, #0x02]
 			mov r4, #EN
 			strb r4, [r0, #0x02]
@@ -210,7 +210,7 @@ LCDCommand	function
 			BX LR
 			endp
 				
-LCDData		function
+LCDData			function
 			strb r7, [r1, #0x02]
 			mov r4, #RW
 			mvn r4, r4
@@ -224,7 +224,7 @@ LCDData		function
 			BX LR
 			endp
 			
-blink		function
+blink			function
 			mov r5, #0x10
 			strb r5, [r2, #0x02]
 			;BL delayLED
